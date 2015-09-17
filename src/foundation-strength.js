@@ -1,158 +1,163 @@
 /*
- * strength.js
- * Original author: @aaronlumsden
- * Further changes, comments: @aaronlumsden
+ * foundation-strength.js
+ * Author: Alexander Egorov
+ * Original author: Aaron Lumsden
  * Licensed under the MIT license
  */
-(function($, window, document, undefined) {
-  var pluginName = "strength",
-    defaults = {
-      strengthClass: 'strength',
-      strengthMeterClass: 'strength_meter',
-      strengthButtonClass: 'button_strength',
-      strengthButtonText: 'Show Password',
-      strengthButtonTextToggle: 'Hide Password'
-    };
 
-  // $('<style>body { background-color: red; color: white; }</style>').appendTo('head');
+(function($) {
+  'use strict';
 
-  function Plugin(element, options) {
-    this.element = element;
-    this.$elem = $(this.element);
+  var plugin_name = "passworder";
+  var defaults = {
+    show_meter: true,
+    meter_style: 'radius', // can be 'round' or 'radius'
+    show_messages: true,
+    messages: {
+      strength: 'This password is {s}', // marker will be replaced
+      nopassword: 'No password.',
+      weak: 'too weak...',
+      moderate: 'moderate.',
+      strong: 'strong!'
+    },
+    classes: {
+      nopassword: 'nopassword',
+      weak: 'password-weak',
+      moderate: 'password-moderate',
+      strong: 'password-strong'
+    }
+  };
+
+  function FoundationPassworder(form, options) {
+    this.$form = $(form);
     this.options = $.extend({}, defaults, options);
-    this._defaults = defaults;
-    this._name = pluginName;
     this.init();
   }
 
-  Plugin.prototype = {
+  FoundationPassworder.prototype = {
     init: function() {
-      var characters = 0;
-      var capitalletters = 0;
-      var loweletters = 0;
-      var number = 0;
-      var special = 0;
+      var options = this.options;
+      var $appende;
+      var $form = this.$form;
+      var $pass = $form.find('input[type=password]').first();
 
-      var upperCase = new RegExp('[A-Z]');
-      var lowerCase = new RegExp('[a-z]');
-      var numbers = new RegExp('[0-9]');
-      var specialchars = new RegExp('([!,%,&,@,#,$,^,*,?,_,~])');
-
-      function GetPercentage(a, b) {
-        return ((b / a) * 100);
+      // Check if we work with form element
+      if (this.$form.prop('localName') != 'form') {
+        console.error('Foundation passworder element should be \'form\'.');
+        return;
       }
 
-      function check_strength(thisval, thisid) {
-        if (thisval.length > 8) {
-          characters = 1;
-        } else {
-          characters = -1;
-        };
-        if (thisval.match(upperCase)) {
-          capitalletters = 1
-        } else {
-          capitalletters = 0;
-        };
-        if (thisval.match(lowerCase)) {
-          loweletters = 1
-        } else {
-          loweletters = 0;
-        };
-        if (thisval.match(numbers)) {
-          number = 1
-        } else {
-          number = 0;
-        };
-
-        var total = characters + capitalletters + loweletters + number + special;
-        var totalpercent = GetPercentage(7, total).toFixed(0);
-
-        if (!thisval.length) {
-          total = -1;
-        }
-
-        get_total(total, thisid);
+      // Check parent element of input
+      if ($pass.parent().prop('localName') == 'label') {
+        // If this is label element, append meter and message after it.
+        $appende = $pass.parent();
+      } else {
+        // If this is not lable append meter and message after input.
+        $appende = this.$pass;
       }
 
-      function get_total(total, thisid) {
+      // Message
+      if (options.show_messages === true) {
+        $appende.after('<small class="passworder-message">' +
+          options.messages.nopassword +
+          '</small>');
 
-        var thismeter = $('div[data-meter="' + thisid + '"]');
-        if (total <= 1) {
-          thismeter.removeClass();
-          thismeter.addClass('veryweak').html('very weak');
-        } else if (total == 2) {
-          thismeter.removeClass();
-          thismeter.addClass('weak').html('weak');
-        } else if (total == 3) {
-          thismeter.removeClass();
-          thismeter.addClass('medium').html('medium');
+        var $message = this.$form.children('.passworder-message');
 
-        } else {
-          thismeter.removeClass();
-          thismeter.addClass('strong').html('strong');
-        }
-
-        if (total == -1) {
-          thismeter.removeClass().html('Strength');
-        }
+        // Update message function
+        var update_message = function(l,s) {
+          if (l === 0) { // don't have any password
+            $message.text(options.messages.nopassword);
+          } else {
+            var msg = options.messages.strength;
+            $message.text(msg.replace(/\{s\}/, options.messages[s]));
+          }
+        };
       }
 
-      var isShown = false;
-      var strengthButtonText = this.options.strengthButtonText;
-      var strengthButtonTextToggle = this.options.strengthButtonTextToggle;
+      // Meter (create only)
+      if (options.show_meter === true) {
+        $appende.after('<div class="passworder-meter progress ' +
+          options.meter_style + '">' + '<span class="meter"></span></div>');
+      }
 
-      thisid = this.$elem.attr('id');
-
-      this.$elem.addClass(this.options.strengthClass).attr('data-password', thisid).after('<input style="display:none" class="' + this.options.strengthClass + '" data-password="' + thisid + '" type="text" name="" value=""><a data-password-button="' + thisid + '" href="" class="' + this.options.strengthButtonClass + '">' + this.options.strengthButtonText + '</a><div class="' + this.options.strengthMeterClass + '"><div data-meter="' + thisid + '">Strength</div></div>');
-
-      this.$elem.bind('keyup keydown', function(event) {
-        thisval = $('#' + thisid).val();
-        $('input[type="text"][data-password="' + thisid + '"]').val(thisval);
-        check_strength(thisval, thisid);
-
-      });
-
-      $('input[type="text"][data-password="' + thisid + '"]').bind('keyup keydown', function(event) {
-        thisval = $('input[type="text"][data-password="' + thisid + '"]').val();
-        console.log(thisval);
-        $('input[type="password"][data-password="' + thisid + '"]').val(thisval);
-        check_strength(thisval, thisid);
-
-      });
-
-
-
-      $(document.body).on('click', '.' + this.options.strengthButtonClass, function(e) {
-        e.preventDefault();
-
-        thisclass = 'hide_' + $(this).attr('class');
-
-
-
-
-        if (isShown) {
-          $('input[type="text"][data-password="' + thisid + '"]').hide();
-          $('input[type="password"][data-password="' + thisid + '"]').show().focus();
-          $('a[data-password-button="' + thisid + '"]').removeClass(thisclass).html(strengthButtonText);
-          isShown = false;
-
-        } else {
-          $('input[type="text"][data-password="' + thisid + '"]').show().focus();
-          $('input[type="password"][data-password="' + thisid + '"]').hide();
-          $('a[data-password-button="' + thisid + '"]').addClass(thisclass).html(strengthButtonTextToggle);
-          isShown = true;
+      // Update function
+      var update = function(l,s) {
+        // Update message
+        if (typeof update_message !== 'undefined' && $.isFunction(update_message)) {
+          update_message(l,s);
         }
+
+        if (l === 0) { // don't have any password
+          var class_to_add = options.classes.nopassword;
+        } else {
+          var class_to_add = options.classes[s];
+        }
+        var classes_all = [];
+        $.each( options.classes, function(k, v) {
+          classes_all.push(v);
+        });
+
+        var classes_to_remove = $.grep(classes_all, function(c) {
+          return c !== class_to_add;
+        });
+
+        $form.addClass(class_to_add);
+        $form.removeClass(classes_to_remove.join(' '));
+      }
+
+      $pass.bind('keyup', function(event) {
+        var password = $(this).val();
+        var score = get_password_score(password);
+        var strength = get_password_strength(score);
+        update(password.length, strength);
+        // console.log('Score ' + score + ' it\'s ' + strength + '!');
+        // console.log('Password value: ' + password);
       });
+
+      // "Good passwords start to score around 60 scores"
+      // http://stackoverflow.com/questions/948172/password-strength-meter
+      function get_password_score(p) {
+        var score = 0;
+        if (!p)
+          return score;
+        // Award every unique letter until 5 repetitions
+        var letters = new Object();
+        for (var i = 0; i < p.length; i++) {
+          letters[p[i]] = (letters[p[i]] || 0) + 1;
+          score += 5.0 / letters[p[i]];
+        };
+        // Bonus points for mixing it up
+        var variations = {
+          digits: /\d/.test(p),
+          lower: /[a-z]/.test(p),
+          upper: /[A-Z]/.test(p),
+          nonWords: /\W/.test(p),
+        }
+        var variationCount = 0;
+        for (var check in variations) {
+          variationCount += (variations[check] == true) ? 1 : 0;
+        }
+        score += (variationCount - 1) * 10;
+        return parseInt(score);
+      };
+
+      function get_password_strength(score) {
+        if (score > 60)
+          return 'strong';
+        if (score > 40)
+          return 'moderate';
+        return 'weak';
+      };
     },
-  };
+  }
 
-  // A really lightweight plugin wrapper around the constructor,
-  // preventing against multiple instantiations
-  $.fn[pluginName] = function(options) {
+  // Wrapper around the constructor preventins multiple instantiations
+  $.fn[plugin_name] = function(options) {
     return this.each(function() {
-      if (!$.data(this, "plugin_" + pluginName)) {
-        $.data(this, "plugin_" + pluginName, new Plugin(this, options));
+      if (!$.data(this, "plugin_" + plugin_name)) {
+        $.data(this, "plugin_" + plugin_name, new FoundationPassworder(this, options));
       }
     });
   };
-})(jQuery, window, document);
+})($);

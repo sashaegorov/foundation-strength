@@ -96,3 +96,8 @@ $('#myPassword').strength({
       </tr>
   </tbody>
 </table>
+
+# TODO
+- Moar effects!
+- Icons
+- Ability to block submit of form
