@@ -11,15 +11,8 @@
   var plugin_name = "passworder";
   var defaults = {
     show_meter: true,
-    meter_style: 'radius', // can be 'round' or 'radius'
+    meter_style: 'radius', // 'round' or 'radius'
     show_messages: true,
-    messages: {
-      strength: 'This password is {s}', // marker will be replaced
-      nopassword: 'No password.',
-      weak: 'too weak...',
-      moderate: 'moderate.',
-      strong: 'strong!'
-    },
     classes: {
       nopassword: 'nopassword',
       weak: 'password-weak',
@@ -56,63 +49,43 @@
         $appende = this.$pass;
       }
 
-      // Message
-      if (options.show_messages === true) {
-        $appende.after('<small class="passworder-message">' +
-          options.messages.nopassword +
-          '</small>');
-
-        var $message = this.$form.children('.passworder-message');
-
-        // Update message function
-        var update_message = function(l,s) {
-          if (l === 0) { // don't have any password
-            $message.text(options.messages.nopassword);
-          } else {
-            var msg = options.messages.strength;
-            $message.text(msg.replace(/\{s\}/, options.messages[s]));
-          }
-        };
-      }
-
       // Meter (create only)
       if (options.show_meter === true) {
         $appende.after('<div class="passworder-meter progress ' +
           options.meter_style + '">' + '<span class="meter"></span></div>');
+        var $meter = this.$form.find('.passworder-meter .meter');
       }
 
       // Update function
-      var update = function(l,s) {
-        // Update message
-        if (typeof update_message !== 'undefined' && $.isFunction(update_message)) {
-          update_message(l,s);
-        }
-
+      var update = function(l, s, p) {
+        // length, strength, points
         if (l === 0) { // don't have any password
           var class_to_add = options.classes.nopassword;
         } else {
           var class_to_add = options.classes[s];
         }
         var classes_all = [];
-        $.each( options.classes, function(k, v) {
+        $.each(options.classes, function(k, v) {
           classes_all.push(v);
         });
-
         var classes_to_remove = $.grep(classes_all, function(c) {
           return c !== class_to_add;
         });
+        $form.addClass(class_to_add).removeClass(classes_to_remove.join(' '));
 
-        $form.addClass(class_to_add);
-        $form.removeClass(classes_to_remove.join(' '));
+        var meter_width = p < 100 ? p : 100;
+        $meter.width(meter_width + '%');
       }
 
-      $pass.bind('keyup', function(event) {
+      update(0, 'weak', 0);
+
+      $pass.bind('keypress keyup change', function(event) {
         var password = $(this).val();
         var score = get_password_score(password);
         var strength = get_password_strength(score);
-        update(password.length, strength);
         // console.log('Score ' + score + ' it\'s ' + strength + '!');
         // console.log('Password value: ' + password);
+        update(password.length, strength, score);
       });
 
       // "Good passwords start to score around 60 scores"
