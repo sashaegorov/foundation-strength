@@ -33,6 +33,7 @@
       var $appende;
       var $form = this.$form;
       var $pass = $form.find('input[type=password]').first();
+      var caps_on
 
       // Check if we work with form element
       if (this.$form.prop('localName') != 'form') {
@@ -78,6 +79,23 @@
       }
 
       update(0, 'weak', 0);
+
+      var $inputs = $form.find(
+        '[type=text],[type=email],[type=password],:text');
+
+      $inputs.each(function() {
+        $(this).bind('keypress', function(event) {
+          var s = String.fromCharCode(event.which);
+          // console.log(s);
+          if (s.match(/[\u00C0-\u1FFF\u2C00-\uD7FF\w]/)) {
+            if (s.toUpperCase() === s && s.toLowerCase() !== s && !event.shiftKey) {
+              console.log('Caps is on');
+            } else {
+              console.log('Caps is off');
+            }
+          }
+        });
+      });
 
       $pass.bind('keypress keyup change', function(event) {
         var password = $(this).val();
