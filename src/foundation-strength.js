@@ -17,7 +17,7 @@
       nopassword: 'nopassword',
       weak: 'password-weak',
       moderate: 'password-moderate',
-      strong: 'password-strong'
+      strong: 'password-strong',
     }
   };
 
@@ -33,7 +33,7 @@
       var $appende;
       var $form = this.$form;
       var $pass = $form.find('input[type=password]').first();
-      var caps_on
+      var caps_on = false;
 
       // Check if we work with form element
       if (this.$form.prop('localName') != 'form') {
@@ -47,7 +47,7 @@
         $appende = $pass.parent();
       } else {
         // If this is not lable append meter and message after input.
-        $appende = this.$pass;
+        $appende = $pass;
       }
 
       // Meter (create only)
@@ -78,20 +78,32 @@
         $meter.width(meter_width + '%');
       }
 
+      var update_caps = function(c) {
+        var on = 'caps-on';
+        var off = 'caps-off';
+        if (c) {
+          $form.addClass(on).removeClass(off);
+        } else {
+          $form.addClass(off).removeClass(on);
+        }
+
+      }
+
       update(0, 'weak', 0);
+      update_caps(false);
 
       var $inputs = $form.find(
         '[type=text],[type=email],[type=password],:text');
 
-      $inputs.each(function() {
+      $inputs.each(function(event) {
         $(this).bind('keypress', function(event) {
           var s = String.fromCharCode(event.which);
-          // console.log(s);
-          if (s.match(/[\u00C0-\u1FFF\u2C00-\uD7FF\w]/)) {
+          // TODO: Bulletprof regexp for char
+          if (s.match(/[A-Za-zА-Яа-я]/)) {
             if (s.toUpperCase() === s && s.toLowerCase() !== s && !event.shiftKey) {
-              console.log('Caps is on');
+              update_caps(true);
             } else {
-              console.log('Caps is off');
+              update_caps(false);
             }
           }
         });
@@ -140,6 +152,7 @@
           return 'moderate';
         return 'weak';
       };
+      // window.wtf = this;
     },
   }
 
