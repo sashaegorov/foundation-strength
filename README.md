@@ -1,11 +1,16 @@
-# Strength.js
-The Foundation password input plugin. Featuring secure strength indicator and hide/show password
+# Foundation-strength.js
+The Foundation password input plugin.
+
+Featuring:
+- Password strength indicator
+- Hide/show password in `password` field
+- Simple Caps lock detection
 
 ## Documentation
-Strength.js provides a toggle feature for password input fields that allows the user to view or asterisk the password. It also features a strength indicator to show how secure a users password is.
+`Foundation-strength.js` provides a toggle feature for password input fields that allows the user to view or asterisk the password. It also features a strength indicator to show how secure a users password is.
 
 ### Demo
-For a demo visit [http://git.aaronlumsden.com/strength.js/](http://git.aaronlumsden.com/strength.js/)
+TODO: For a demo visit [http://git.aaronlumsden.com/strength.js/](http://git.aaronlumsden.com/strength.js/)
 
 The password secuirty indicator is marked on 4 scores. These are
 - Password must contain 8 characters or more
@@ -98,6 +103,4 @@ $('#myPassword').strength({
 </table>
 
 # TODO
-- Moar effects!
-- Icons
 - Ability to block submit of form
