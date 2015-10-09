@@ -8,7 +8,7 @@
 (function($) {
   'use strict';
 
-  var plugin_name = "passworder";
+  var plugin_name = "strength";
   var defaults = {
     show_meter: true,
     meter_style: 'radius', // 'round' or 'radius'
@@ -30,31 +30,30 @@
   FoundationPassworder.prototype = {
     init: function() {
       var options = this.options;
-      var $appende;
-      var $form = this.$form;
+      var $appendee; // Apped to whom
+      var $form = this.$form; // Whole form
       var $pass = $form.find('input[type=password]').first();
-      var caps_on = false;
 
-      // Check if we work with form element
       if (this.$form.prop('localName') != 'form') {
-        console.error('Foundation passworder element should be \'form\'.');
+        // Check if we work with form element
+        console.error('Foundation strength element should be \'form\'.');
         return;
       }
 
       // Check parent element of input
       if ($pass.parent().prop('localName') == 'label') {
         // If this is label element, append meter and message after it.
-        $appende = $pass.parent();
+        $appendee = $pass.parent();
       } else {
         // If this is not lable append meter and message after input.
-        $appende = $pass;
+        $appendee = $pass;
       }
 
-      // Meter (create only)
+      // Meter
       if (options.show_meter === true) {
-        $appende.after('<div class="passworder-meter progress ' +
+        $appendee.after('<div class="strength-meter progress ' +
           options.meter_style + '">' + '<span class="meter"></span></div>');
-        var $meter = this.$form.find('.passworder-meter .meter');
+        var $meter = this.$form.find('.strength-meter .meter');
       }
 
       // Update function
@@ -86,7 +85,6 @@
         } else {
           $form.addClass(off).removeClass(on);
         }
-
       }
 
       update(0, 'weak', 0);

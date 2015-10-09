@@ -1,34 +1,20 @@
 @charset "utf-8";
 
-/* CSS Document */
+/* CSS is dead simple! */
 
-.strength_meter {
-  height: 23px;
-  width: 154px;
-  background: silver;
+.progress .meter {
+  transition: width 0.25s, background-color 0.5s;
 }
-.strength_meter div {
-  height: 23px;
-  width: 100%;
-  height: 23px;
-  text-align: center;
-  color: black;
-  font-weight: bold;
-  line-height: 23px;
+
+.password-weak .progress .meter { background-color: #f04124; }
+.password-moderate .progress .meter { background-color: #f08a24; }
+.password-strong .progress .meter { background-color: #43AC6A; }
+
+.status .caps {
+  display: none;
+  margin: .5rem 0;
 }
-.veryweak {
-  background-color: #FFA0A0;
-  border-color: #F04040!important
-}
-.weak {
-  background-color: #FFB78C;
-  border-color: #FF853C!important;
-}
-.medium {
-  background-color: #FFEC8B;
-  border-color: #FC0!important;
-}
-.strong {
-  background-color: #C3FF88;
-  border-color: #8DFF1C!important;
+
+.caps-on .status .caps {
+  display: block;
 }
