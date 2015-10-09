@@ -1,7 +1,7 @@
 # Foundation-strength.js
 
 Dead simple password strength plugin for [Foundation](http://foundation.zurb.com/).
-Just. Show me. The demo.
+Just. Show me. The [demo](http://qatsi.github.io/foundation-strength.js/index.htm).
 
 `Foundation-strength.js` featuring:
 - Password strength indicator with *colors*!
@@ -40,8 +40,3 @@ Initiate the plugin.
   });
 </script>
 ```
-
-# TODO
-
-- Demo!
-- Ability to block submit of form
