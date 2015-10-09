@@ -8,7 +8,7 @@
 (function($) {
   'use strict';
 
-  var plugin_name = "strength";
+  var plugin_name = 'strength';
   var defaults = {
     show_meter: true,
     meter_style: 'radius', // 'round' or 'radius'
@@ -51,8 +51,8 @@
 
       // Meter
       if (options.show_meter === true) {
-        $appendee.after('<div class="strength-meter progress ' +
-          options.meter_style + '">' + '<span class="meter"></span></div>');
+        $appendee.after('<div class=\'strength-meter progress ' +
+          options.meter_style + '\'>' + '<span class=\'meter\'></span></div>');
         var $meter = this.$form.find('.strength-meter .meter');
       }
 
@@ -116,7 +116,7 @@
         update(password.length, strength, score);
       });
 
-      // "Good passwords start to score around 60 scores"
+      // 'Good passwords start to score around 60 scores'
       // http://stackoverflow.com/questions/948172/password-strength-meter
       function get_password_score(p) {
         var score = 0;
@@ -157,8 +157,8 @@
   // Wrapper around the constructor preventins multiple instantiations
   $.fn[plugin_name] = function(options) {
     return this.each(function() {
-      if (!$.data(this, "plugin_" + plugin_name)) {
-        $.data(this, "plugin_" + plugin_name, new FoundationPassworder(this, options));
+      if (!$.data(this, 'plugin_' + plugin_name)) {
+        $.data(this, 'plugin_' + plugin_name, new FoundationPassworder(this, options));
       }
     });
   };
