@@ -40,3 +40,12 @@ Initiate the plugin.
   });
 </script>
 ```
+
+## Making Coffee
+
+"Build" now as simple as on line `coffee --compile --bare --watch --no-header *.coffee`.
+
+## Todo
+
+- Make minified version
+- Use some build tools
