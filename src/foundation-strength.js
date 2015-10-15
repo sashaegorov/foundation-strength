@@ -1,10 +1,3 @@
-
-/*
- * foundation-strength.js
- * Author: Alexander Egorov
- * Original author: Aaron Lumsden
- * Licensed under the MIT license
- */
 (function($) {
   var FoundationStrength, defaults, plugin_name;
   plugin_name = 'strength';
@@ -103,9 +96,9 @@
         is_on = 'caps-on';
         is_off = 'caps-off';
         if (c) {
-          $form.addClass(is_on).removeClass(false);
+          $form.addClass(is_on).removeClass(is_off);
         } else {
-          $form.addClass(is_off).removeClass(true);
+          $form.addClass(is_off).removeClass(is_on);
         }
       };
       update(0, 'weak', 0);

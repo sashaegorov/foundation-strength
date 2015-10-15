@@ -43,7 +43,7 @@ Initiate the plugin.
 
 ## Making Coffee
 
-"Build" now as simple as on line `coffee --compile --bare --watch --no-header *.coffee`.
+"Build" now as simple as on line `coffee --compile --bare --watch --no-header **/*.coffee`.
 
 ## Todo
 

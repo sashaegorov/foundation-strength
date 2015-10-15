@@ -1,9 +1,9 @@
-###
+#
 # foundation-strength.js
 # Author: Alexander Egorov
 # Original author: Aaron Lumsden
 # Licensed under the MIT license
-###
+#
 
 do ($) ->
   plugin_name = 'strength'
@@ -102,9 +102,9 @@ do ($) ->
       is_on = 'caps-on'
       is_off = 'caps-off'
       if c
-        $form.addClass(is_on).removeClass off
+        $form.addClass(is_on).removeClass(is_off)
       else
-        $form.addClass(is_off).removeClass on
+        $form.addClass(is_off).removeClass(is_on)
       return
 
     update 0, 'weak', 0
