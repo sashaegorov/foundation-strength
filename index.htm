@@ -15,7 +15,8 @@
   <script>
     $(document).ready(function($) {
       $('.strength-no-1').strength();
-      $('.strength-no-2').strength();
+      $('.strength-no-2').strength({meter_style: 'round mybar'});
+      $('.strength-no-3').strength();
       $(document).foundation();
     });
   </script>
@@ -23,12 +24,13 @@
 
 <body class='foundation-strength-demo'>
   <div class='row'>
-    <div class='large-offset-3 large-6 columns'>
+    <div class='large-offset-2 large-8 columns'>
 
       <h1>Foundation-strength.js</h1>
       <p>Easy way to add password strength indicator to your <code>form</code>. For more inforamtion use the <a href='https://github.com/qatsi/foundation-strength.js/blob/master/README.md'>README</a> and the <a href='https://github.com/qatsi/foundation-strength.js/blob/master/index.htm'>source</a>, Luke.</p>
       <ul class='tabs' data-tab data-options='scroll_to_content: false'>
         <li class='tab-title active'><a href='#simple'>Simplest usage</a></li>
+        <li class='tab-title'><a href='#style'>Meter style</a></li>
         <li class='tab-title'><a href='#caps'>Caps lock detector</a></li>
       </ul>
       <hr />
@@ -45,8 +47,15 @@
           </form>
         </div>
 
-        <div class='content' id='caps'>
+        <div class='content' id='style'>
           <form class='strength strength-no-2'>
+            <p>Styling bar <code>radius</code> of <code>round</code> are both valid options. <code>radius</code> is default setting... Use yhis setting to pass extra class if it's necessary.</p>
+            <input class='radius' type='password' placeholder='Password'>
+          </form>
+        </div>
+
+        <div class='content' id='caps'>
+          <form class='strength strength-no-3'>
             <p>Enable <code>Caps</code> lock and start typing...</p>
             <input class='radius' type='text' placeholder='Login'>
             <input class='radius' type='password' placeholder='Password'>

@@ -2,9 +2,14 @@
 
 /*  CSS is dead simple! */
 .strength-meter.progress {
-  height: 10px;
-  margin-top: -10px;
+  height: 15px;
 }
+
+/* Custom class */
+.strength-meter.progress.mybar {
+  height: 20px;
+}
+
 .strength-meter.progress .meter {
   transition: width 0.25s, background-color 0.5s;
 }
@@ -27,6 +32,11 @@
 .foundation-strength-demo hr {
     margin: 0rem 0 1.1875rem;
 }
+
+.foundation-strength-demo .tab-title {
+  margin-right: 1px;
+}
+
 .foundation-strength-demo .tab-title a {
   border-radius: 4px 4px 0 0;
 }
