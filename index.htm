@@ -49,15 +49,16 @@
 
         <div class='content' id='style'>
           <form class='strength strength-no-2'>
-            <p>Styling bar <code>radius</code> of <code>round</code> are both valid options. <code>radius</code> is default setting... Use yhis setting to pass extra class if it's necessary.</p>
+            <p>Styling bar possible with <code>radius</code> (default) or <code>round</code> classes: <code>$('.strength').strength({meter_style: 'round mybar'});</code> Use this setting to pass extra class you want e.g. `mybar` in this example.</p>
             <input class='radius' type='password' placeholder='Password'>
           </form>
         </div>
 
         <div class='content' id='caps'>
           <form class='strength strength-no-3'>
-            <p>Enable <code>Caps</code> lock and start typing...</p>
+            <p>Enable <code>Caps</code> lock and start typing in any field.</p>
             <input class='radius' type='text' placeholder='Login'>
+            <input class='radius' type='email' placeholder='Email'>
             <input class='radius' type='password' placeholder='Password'>
             <div class='status'>
               <span class='label radius warning caps'>Caps lock seems to be on</span>
