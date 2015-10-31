@@ -2,7 +2,7 @@
   var FoundationStrength, defaults;
   defaults = {
     show_meter: true,
-    meter_style: 'radius',
+    meterClasses: 'radius',
     show_messages: true,
     classes: {
       nopassword: 'nopassword',
@@ -67,7 +67,7 @@
         $appendee = $pass;
       }
       if (options.show_meter === true) {
-        $appendee.after('<div class=\'strength-meter progress ' + options.meter_style + '\'>' + '<span class=\'meter\'></span></div>');
+        $appendee.after('<div class=\'strength-meter progress ' + options.meterClasses + '\'>' + '<span class=\'meter\'></span></div>');
         $meter = this.$form.find('.strength-meter .meter');
       }
       update = function(l, s, p) {

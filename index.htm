@@ -15,7 +15,7 @@
   <script>
     $(document).ready(function($) {
       $('.strength-no-1').strength();
-      $('.strength-no-2').strength({meter_style: 'round mybar'});
+      $('.strength-no-2').strength({meterClasses: 'round foobar'});
       $('.strength-no-3').strength();
       $(document).foundation();
     });
@@ -48,7 +48,7 @@
 
         <div class='content' id='style'>
           <form class='strength strength-no-2'>
-            <p>Styling bar possible with <code>radius</code> (default) or <code>round</code> classes: <code>$('.strength').strength({meter_style: 'round mybar'});</code> Use this setting to pass extra class you want e.g. `mybar` in this example.</p>
+            <p>Styling bar possible with <code>radius</code> (default) or <code>round</code> classes: <code>$('.strength').strength({meterClasses: 'round foobar'});</code> Use this setting to pass extra class you want e.g. `foobar` in this example.</p>
             <input class='radius' type='password' placeholder='Password'>
           </form>
         </div>

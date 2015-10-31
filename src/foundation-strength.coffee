@@ -8,7 +8,7 @@
 do ($) ->
   defaults =
     show_meter: true
-    meter_style: 'radius'
+    meterClasses: 'radius'
     show_messages: true
     classes:
       nopassword: 'nopassword'
@@ -71,7 +71,7 @@ do ($) ->
       $appendee = $pass
     # Meter
     if options.show_meter == true
-      $appendee.after '<div class=\'strength-meter progress ' + options.meter_style + '\'>' + '<span class=\'meter\'></span></div>'
+      $appendee.after '<div class=\'strength-meter progress ' + options.meterClasses + '\'>' + '<span class=\'meter\'></span></div>'
       $meter = @$form.find('.strength-meter .meter')
     # Update function
 
