@@ -26,9 +26,9 @@ do ($) ->
     $appendee = undefined
     $form = @$form # Apped to which element
     $pass = $form.find('input[type=password]').first() # Whole form
+
     # 'Good passwords start to score around 60 scores'
     # http://stackoverflow.com/questions/948172/password-strength-meter
-
     get_password_score = (p) ->
       score = 0
       if !p
@@ -62,12 +62,9 @@ do ($) ->
     if @$form.prop('localName') != 'form'
       # Check if we work with form element
       console.error 'Foundation strength element should be \'form\'.'
-    # Check parent element of input
-    if $pass.parent().prop('localName') == 'label'
-      # If this is label element, append meter and message after it.
-      $appendee = $pass.parent()
+    if $pass.parent().prop('localName') == 'label' # Check input's parent
+      $appendee = $pass.parent() # append after label
     else
-      # If this is not lable append meter and message after input.
       $appendee = $pass
     # Meter
     if options.show_meter == true
@@ -76,7 +73,6 @@ do ($) ->
     # Update function
 
     update = (l, s, p) ->
-      `var class_to_add`
       # length, strength, points
       if l == 0
         # don't have any password

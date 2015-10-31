@@ -71,7 +71,6 @@
         $meter = this.$form.find('.strength-meter .meter');
       }
       update = function(l, s, p) {
-        var class_to_add;
         var class_to_add, classes_all, classes_to_remove, meter_width;
         if (l === 0) {
           class_to_add = options.classes.nopassword;
