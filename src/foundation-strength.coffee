@@ -6,7 +6,6 @@
 #
 
 do ($) ->
-  plugin_name = 'strength'
   defaults =
     show_meter: true
     meter_style: 'radius'
@@ -21,7 +20,6 @@ do ($) ->
     @$form = $(form)
     @options = $.extend({}, defaults, options)
     @init()
-    return
 
   FoundationStrength.prototype = init: ->
     options = @options
@@ -64,7 +62,6 @@ do ($) ->
     if @$form.prop('localName') != 'form'
       # Check if we work with form element
       console.error 'Foundation strength element should be \'form\'.'
-      return
     # Check parent element of input
     if $pass.parent().prop('localName') == 'label'
       # If this is label element, append meter and message after it.
@@ -89,14 +86,12 @@ do ($) ->
       classes_all = []
       $.each options.classes, (k, v) ->
         classes_all.push v
-        return
       classes_to_remove = $.grep(classes_all, (c) ->
         c != class_to_add
       )
       $form.addClass(class_to_add).removeClass classes_to_remove.join(' ')
       meter_width = if p < 100 then p else 100
       $meter.width meter_width + '%'
-      return
 
     update_caps = (c) ->
       is_on = 'caps-on'
@@ -105,7 +100,6 @@ do ($) ->
         $form.addClass(is_on).removeClass(is_off)
       else
         $form.addClass(is_off).removeClass(is_on)
-      return
 
     update 0, 'weak', 0
     update_caps false
@@ -119,8 +113,6 @@ do ($) ->
             update_caps true
           else
             update_caps false
-        return
-      return
 
     $pass.bind 'keypress keyup change', (event) ->
       password = $(this).val()
@@ -129,14 +121,10 @@ do ($) ->
       # console.log('Score ' + score + ' it\'s ' + strength + '!');
       # console.log('Password value: ' + password);
       update password.length, strength, score
-      return
     # window.wtf = this;
-    return
 
-  $.fn[plugin_name] = (options) ->
+  $.fn.extend strength: (options) ->
     # Wrapper around the constructor preventins multiple instantiations
     @each ->
-      if !$.data(this, 'plugin_' + plugin_name)
-        $.data this, 'plugin_' + plugin_name, new FoundationStrength(this, options)
-      return
-  return
+      if !$.data(this, 'FoundationStrength')
+        $.data this, 'FoundationStrength', new FoundationStrength(this, options)
